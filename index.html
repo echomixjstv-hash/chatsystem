@@ -1,1 +1,3665 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>Live Webinar</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+
+    background:#050505;
+    color:#fff;
+
+    font-family:Arial,sans-serif;
+}
+
+.app{
+    width:100%;
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+}
+
+
+/* ================= LOGIN ================= */
+
+.loginOverlay{
+    position:fixed;
+    inset:0;
+
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.94);
+
+    padding:20px;
+}
+
+.loginBox{
+    width:min(420px,100%);
+
+    padding:28px;
+
+    background:#111;
+
+    border:1px solid #292929;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.7);
+}
+
+.loginLogo{
+    text-align:center;
+
+    font-size:25px;
+    font-weight:bold;
+
+    margin-bottom:7px;
+}
+
+.loginSubtitle{
+    text-align:center;
+
+    color:#777;
+
+    font-size:12px;
+
+    margin-bottom:24px;
+}
+
+.formGroup{
+    margin-bottom:14px;
+}
+
+.formGroup label{
+    display:block;
+
+    margin-bottom:6px;
+
+    color:#aaa;
+
+    font-size:11px;
+    font-weight:bold;
+}
+
+.formGroup input{
+    width:100%;
+    height:46px;
+
+    padding:0 13px;
+
+    border:1px solid #333;
+
+    outline:none;
+
+    border-radius:8px;
+
+    background:#080808;
+
+    color:#fff;
+
+    font-size:14px;
+}
+
+.formGroup input:focus{
+    border-color:#777;
+}
+
+.joinButton{
+    width:100%;
+    height:46px;
+
+    margin-top:5px;
+
+    border:0;
+    border-radius:8px;
+
+    background:#fff;
+    color:#000;
+
+    font-size:14px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.joinButton:active{
+    transform:scale(.98);
+}
+
+.loginError{
+    min-height:17px;
+
+    margin-top:10px;
+
+    color:#ff6868;
+
+    text-align:center;
+
+    font-size:11px;
+}
+
+
+/* ================= HEADER ================= */
+
+.header{
+    height:58px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 16px;
+
+    background:#111;
+
+    border-bottom:1px solid #252525;
+}
+
+.logo{
+    font-size:19px;
+    font-weight:bold;
+}
+
+.headerRight{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.clock{
+    text-align:right;
+}
+
+.date{
+    color:#777;
+    font-size:10px;
+}
+
+.time{
+    font-size:14px;
+    font-weight:bold;
+}
+
+
+/* ================= USER ================= */
+
+.userPanel{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+
+    gap:7px;
+
+    min-width:80px;
+}
+
+.userIcon{
+    width:28px;
+    height:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#252525;
+
+    font-size:13px;
+}
+
+.userName{
+    max-width:100px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+    color:#aaa;
+
+    font-size:10px;
+}
+
+
+/* ================= MAIN ================= */
+
+.main{
+    flex:1;
+    min-height:0;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:9px 12px;
+
+    overflow:hidden;
+}
+
+.contentArea{
+    flex:1;
+
+    min-height:0;
+
+    display:flex;
+
+    gap:8px;
+}
+
+
+/* ================= WEBINAR ================= */
+
+.webinarArea{
+    flex:1;
+
+    min-width:0;
+    min-height:0;
+
+    display:flex;
+    flex-direction:column;
+}
+
+
+/* ================= STATUS ================= */
+
+.status{
+    flex-shrink:0;
+
+    text-align:center;
+
+    margin-bottom:7px;
+}
+
+.title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.info{
+    margin-top:2px;
+
+    color:#888;
+
+    font-size:11px;
+}
+
+
+/* ================= CONNECTING ================= */
+
+.connecting{
+    flex:1;
+    min-height:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:#101010;
+
+    border:1px solid #222;
+
+    border-radius:9px;
+}
+
+.spinner{
+    width:34px;
+    height:34px;
+
+    border:3px solid #333;
+
+    border-top-color:#fff;
+
+    border-radius:50%;
+
+    animation:spin .7s linear infinite;
+
+    margin-bottom:12px;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+.connectText{
+    font-size:16px;
+    font-weight:bold;
+}
+
+.connectSub{
+    margin-top:6px;
+
+    color:#666;
+
+    font-size:10px;
+}
+
+
+/* ================= VIDEO ================= */
+
+.videoBox{
+    flex:1;
+    min-height:0;
+
+    position:relative;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:#000;
+
+    border-radius:9px;
+
+    border:1px solid #222;
+}
+
+#video{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:contain;
+
+    background:#000;
+}
+
+
+/* ================= REMOVE CONTROLS ================= */
+
+video::-webkit-media-controls{
+    display:none !important;
+}
+
+video::-webkit-media-controls-enclosure{
+    display:none !important;
+}
+
+video::-webkit-media-controls-panel{
+    display:none !important;
+}
+
+
+/* ================= UNMUTE ================= */
+
+.unmute{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    padding:14px 22px;
+
+    border:0;
+
+    border-radius:40px;
+
+    background:rgba(0,0,0,.88);
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    z-index:10;
+}
+
+.unmute.hidden{
+    display:none !important;
+}
+
+
+/* ================= MESSAGE ================= */
+
+.messageBox{
+    flex:1;
+    min-height:0;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    text-align:center;
+
+    background:#111;
+
+    border:1px solid #222;
+
+    border-radius:9px;
+}
+
+.messageIcon{
+    font-size:45px;
+}
+
+.messageTitle{
+    margin-top:8px;
+
+    font-size:24px;
+
+    font-weight:bold;
+}
+
+.messageText{
+    margin-top:8px;
+
+    color:#777;
+
+    font-size:12px;
+}
+
+.countdown{
+    margin-top:10px;
+
+    font-size:32px;
+
+    font-weight:bold;
+}
+
+
+/* ================= SESSIONS ================= */
+
+.sessions{
+    flex-shrink:0;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:7px;
+
+    margin-top:7px;
+}
+
+.session{
+    min-height:58px;
+
+    padding:8px 10px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    background:#111;
+
+    border:1px solid #222;
+
+    border-radius:7px;
+}
+
+.session.current{
+    border-color:#fff;
+}
+
+.sessionInfo{
+    min-width:0;
+}
+
+.label{
+    color:#666;
+
+    font-size:8px;
+
+    text-transform:uppercase;
+}
+
+.name{
+    margin-top:3px;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+.sessionTime{
+    margin-top:3px;
+
+    color:#888;
+
+    font-size:10px;
+}
+
+.badge{
+    padding:4px 7px;
+
+    border-radius:20px;
+
+    background:#252525;
+
+    font-size:7px;
+
+    white-space:nowrap;
+}
+
+.current .badge{
+    background:#fff;
+
+    color:#000;
+}
+
+
+/* ================= ATTENDEES ================= */
+
+.attendees{
+    width:190px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:0;
+
+    background:#111;
+
+    border:1px solid #222;
+
+    border-radius:9px;
+
+    overflow:hidden;
+}
+
+.attendeeHeader{
+    height:45px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 11px;
+
+    border-bottom:1px solid #222;
+}
+
+.attendeeTitle{
+    font-size:12px;
+
+    font-weight:bold;
+}
+
+.attendeeCount{
+    min-width:21px;
+
+    height:21px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#252525;
+
+    font-size:9px;
+}
+
+.attendeeList{
+    flex:1;
+
+    min-height:0;
+
+    overflow:hidden auto;
+
+    padding:6px;
+}
+
+.attendee{
+    min-height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:6px;
+
+    margin-bottom:3px;
+
+    border-radius:6px;
+
+    background:#0a0a0a;
+}
+
+.attendeeAvatar{
+    width:27px;
+    height:27px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#222;
+
+    font-size:11px;
+}
+
+.attendeeDetails{
+    min-width:0;
+}
+
+.attendeeName{
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.attendeeStatus{
+    margin-top:2px;
+
+    color:#555;
+
+    font-size:7px;
+}
+
+.noAttendees{
+    padding:20px 8px;
+
+    color:#555;
+
+    text-align:center;
+
+    font-size:9px;
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer{
+    height:18px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#333;
+
+    font-size:8px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+    .header{
+        height:50px;
+
+        padding:0 8px;
+    }
+
+    .logo{
+        font-size:14px;
+    }
+
+    .headerRight{
+        gap:7px;
+    }
+
+    .date{
+        display:none;
+    }
+
+    .time{
+        font-size:10px;
+    }
+
+    .userPanel{
+        min-width:0;
+    }
+
+    .userName{
+        max-width:60px;
+    }
+
+    .main{
+        padding:5px 6px;
+    }
+
+    .contentArea{
+        gap:5px;
+    }
+
+    .attendees{
+        width:125px;
+    }
+
+    .attendeeHeader{
+        height:40px;
+
+        padding:0 7px;
+    }
+
+    .attendeeTitle{
+        font-size:9px;
+    }
+
+    .attendee{
+        gap:5px;
+
+        min-height:36px;
+
+        padding:4px;
+    }
+
+    .attendeeAvatar{
+        width:23px;
+        height:23px;
+    }
+
+    .attendeeName{
+        font-size:8px;
+    }
+
+    .attendeeStatus{
+        font-size:6px;
+    }
+
+    .title{
+        font-size:16px;
+    }
+
+    .info{
+        font-size:9px;
+    }
+
+    .session{
+        min-height:52px;
+
+        padding:6px 7px;
+    }
+
+    .label{
+        font-size:7px;
+    }
+
+    .name{
+        font-size:10px;
+    }
+
+    .sessionTime{
+        font-size:8px;
+    }
+
+    .badge{
+        font-size:6px;
+
+        padding:3px 5px;
+    }
+
+    .unmute{
+        padding:11px 17px;
+
+        font-size:11px;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .attendees{
+        width:105px;
+    }
+
+    .userName{
+        display:none;
+    }
+
+    .attendeeTitle{
+        font-size:8px;
+    }
+
+    .attendeeName{
+        font-size:7px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div
+    class="loginOverlay"
+    id="loginOverlay"
+>
+
+    <div class="loginBox">
+
+        <div class="loginLogo">
+            🔴 LIVE WEBINAR
+        </div>
+
+        <div class="loginSubtitle">
+            Enter your information to join the webinar
+        </div>
+
+
+        <div class="formGroup">
+
+            <label>
+                FULL NAME
+            </label>
+
+            <input
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+            >
+
+        </div>
+
+
+        <div class="formGroup">
+
+            <label>
+                EMAIL ADDRESS
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email address"
+                autocomplete="email"
+            >
+
+        </div>
+
+
+        <button
+            class="joinButton"
+            id="joinButton"
+        >
+            JOIN WEBINAR
+        </button>
+
+
+        <div
+            class="loginError"
+            id="loginError"
+        ></div>
+
+    </div>
+
+</div>
+
+
+
+<div class="app">
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="logo">
+        🔴 LIVE WEBINAR
+    </div>
+
+
+    <div class="headerRight">
+
+
+        <div class="userPanel">
+
+            <div
+                class="userIcon"
+                id="userIcon"
+            >
+                👤
+            </div>
+
+            <div
+                class="userName"
+                id="userName"
+            >
+                —
+            </div>
+
+        </div>
+
+
+        <div class="clock">
+
+            <div
+                class="date"
+                id="date">
+            </div>
+
+            <div
+                class="time"
+                id="clock">
+            </div>
+
+        </div>
+
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+<div class="contentArea">
+
+
+<!-- ================= WEBINAR AREA ================= -->
+
+<div class="webinarArea">
+
+
+<div class="status">
+
+    <div
+        class="title"
+        id="title">
+
+        Connecting...
+
+    </div>
+
+
+    <div
+        class="info"
+        id="info">
+
+        Checking webinar schedule...
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= CONNECTING ================= -->
+
+<div
+    class="connecting"
+    id="connecting">
+
+    <div class="spinner"></div>
+
+
+    <div class="connectText">
+        Loading Webinar
+    </div>
+
+
+    <div
+        class="connectSub"
+        id="connectSub">
+
+        Connecting to Firebase...
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= MESSAGE ================= -->
+
+<div
+    class="messageBox"
+    id="messageBox">
+
+
+    <div
+        class="messageIcon"
+        id="messageIcon">
+
+        ⏳
+
+    </div>
+
+
+    <div
+        class="messageTitle"
+        id="messageTitle">
+
+        Starting Soon
+
+    </div>
+
+
+    <div
+        class="countdown"
+        id="countdown">
+
+        00:00:00
+
+    </div>
+
+
+    <div
+        class="messageText"
+        id="messageText">
+
+        Webinar starts at 1:00 PM
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= VIDEO ================= -->
+
+<div
+    class="videoBox"
+    id="videoBox">
+
+
+    <video
+        id="video"
+
+        autoplay
+
+        playsinline
+
+        preload="auto"
+
+        disablepictureinpicture
+
+        controlslist="
+            nodownload
+            nofullscreen
+            noremoteplayback
+        "
+    ></video>
+
+
+    <button
+        class="unmute"
+        id="unmute">
+
+        🔊 CLICK TO UNMUTE
+
+    </button>
+
+</div>
+
+
+
+<!-- ================= SESSIONS ================= -->
+
+<div class="sessions">
+
+
+<div class="session current">
+
+
+    <div class="sessionInfo">
+
+        <div class="label">
+            Current Session
+        </div>
+
+
+        <div
+            class="name"
+            id="currentName">
+
+            —
+
+        </div>
+
+
+        <div
+            class="sessionTime"
+            id="currentTime">
+
+            —
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="badge"
+        id="currentBadge">
+
+        LIVE
+
+    </div>
+
+
+</div>
+
+
+
+<div class="session">
+
+
+    <div class="sessionInfo">
+
+        <div class="label">
+            Next Session
+        </div>
+
+
+        <div
+            class="name"
+            id="nextName">
+
+            —
+
+        </div>
+
+
+        <div
+            class="sessionTime"
+            id="nextTime">
+
+            —
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="badge"
+        id="nextBadge">
+
+        UPCOMING
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- ================= ATTENDEES ================= -->
+
+<aside class="attendees">
+
+
+    <div class="attendeeHeader">
+
+        <div class="attendeeTitle">
+            JOINED
+        </div>
+
+        <div
+            class="attendeeCount"
+            id="attendeeCount"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div
+        class="attendeeList"
+        id="attendeeList"
+    >
+
+        <div class="noAttendees">
+            No attendees yet
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+</div>
+
+
+</main>
+
+
+
+<footer class="footer">
+    Online Webinar
+</footer>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    update,
+    remove,
+    onValue,
+    onDisconnect
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAKzNpD9BeiT-eymm0e1l_U3p_dggPrbEk",
+
+    authDomain:
+        "jess-santi.firebaseapp.com",
+
+    databaseURL:
+        "https://jess-santi-default-rtdb.firebaseio.com",
+
+    projectId:
+        "jess-santi",
+
+    storageBucket:
+        "jess-santi.firebasestorage.app",
+
+    messagingSenderId:
+        "457562056307",
+
+    appId:
+        "1:457562056307:web:1be6c76bc8bdb5bd0aac06",
+
+    measurementId:
+        "G-SKL83F1C8B"
+
+};
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+const db =
+    getDatabase(app);
+
+
+/* =====================================================
+   WEBINAR FIREBASE PATH
+===================================================== */
+
+const webinarRef =
+    ref(
+        db,
+        "webinar"
+    );
+
+const attendeesRef =
+    ref(
+        db,
+        "webinar/attendees"
+    );
+
+const sessionRef =
+    ref(
+        db,
+        "webinar/session"
+    );
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const VIDEO_FILE =
+    "seminar.mp4";
+
+const START_HOUR =
+    13;
+
+const START_MINUTE =
+    0;
+
+const TOTAL_SESSIONS =
+    10;
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+const LOGIN_KEY =
+    "webinarUser";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loginOverlay =
+    document.getElementById(
+        "loginOverlay"
+    );
+
+const fullNameInput =
+    document.getElementById(
+        "fullName"
+    );
+
+const emailInput =
+    document.getElementById(
+        "email"
+    );
+
+const joinButton =
+    document.getElementById(
+        "joinButton"
+    );
+
+const loginError =
+    document.getElementById(
+        "loginError"
+    );
+
+const userName =
+    document.getElementById(
+        "userName"
+    );
+
+const userIcon =
+    document.getElementById(
+        "userIcon"
+    );
+
+const attendeeList =
+    document.getElementById(
+        "attendeeList"
+    );
+
+const attendeeCount =
+    document.getElementById(
+        "attendeeCount"
+    );
+
+const video =
+    document.getElementById(
+        "video"
+    );
+
+const videoBox =
+    document.getElementById(
+        "videoBox"
+    );
+
+const connecting =
+    document.getElementById(
+        "connecting"
+    );
+
+const messageBox =
+    document.getElementById(
+        "messageBox"
+    );
+
+const messageIcon =
+    document.getElementById(
+        "messageIcon"
+    );
+
+const messageTitle =
+    document.getElementById(
+        "messageTitle"
+    );
+
+const messageText =
+    document.getElementById(
+        "messageText"
+    );
+
+const countdown =
+    document.getElementById(
+        "countdown"
+    );
+
+const title =
+    document.getElementById(
+        "title"
+    );
+
+const info =
+    document.getElementById(
+        "info"
+    );
+
+const connectSub =
+    document.getElementById(
+        "connectSub"
+    );
+
+const unmute =
+    document.getElementById(
+        "unmute"
+    );
+
+const dateElement =
+    document.getElementById(
+        "date"
+    );
+
+const clockElement =
+    document.getElementById(
+        "clock"
+    );
+
+const currentName =
+    document.getElementById(
+        "currentName"
+    );
+
+const currentTime =
+    document.getElementById(
+        "currentTime"
+    );
+
+const currentBadge =
+    document.getElementById(
+        "currentBadge"
+    );
+
+const nextName =
+    document.getElementById(
+        "nextName"
+    );
+
+const nextTime =
+    document.getElementById(
+        "nextTime"
+    );
+
+const nextBadge =
+    document.getElementById(
+        "nextBadge"
+    );
+
+
+/* =====================================================
+   USER
+===================================================== */
+
+let currentUser =
+    null;
+
+let firebaseUserKey =
+    null;
+
+
+/* =====================================================
+   SESSION STATE
+===================================================== */
+
+let firebaseSessionEnded =
+    false;
+
+let currentFirebaseSessionId =
+    null;
+
+
+/* =====================================================
+   VIDEO STATE
+===================================================== */
+
+let videoReady =
+    false;
+
+let lastSession =
+    -1;
+
+let endedForSession =
+    false;
+
+
+/* =====================================================
+   AUDIO STATE
+
+   IMPORTANT:
+   Walang localStorage dito.
+
+   Bawat page load:
+   - muted muna
+   - UNMUTE button lang ang
+     makakapag-enable ng sound
+===================================================== */
+
+let soundUnlocked =
+    false;
+
+let unmuteClicked =
+    false;
+
+
+/* =====================================================
+   MASK NAME
+===================================================== */
+
+function maskName(name){
+
+    name =
+        String(name || "")
+        .trim();
+
+    if(!name){
+
+        return "******";
+
+    }
+
+    const parts =
+        name
+        .split(/\s+/)
+        .filter(Boolean);
+
+
+    if(parts.length === 1){
+
+        return (
+            "** " +
+            parts[0] +
+            " **"
+        );
+
+    }
+
+
+    const first =
+        parts[0];
+
+    const middle =
+        parts
+        .slice(
+            1,
+            -1
+        )
+        .join(" ");
+
+
+    if(middle){
+
+        return (
+            "** " +
+            first +
+            " " +
+            middle +
+            " **"
+        );
+
+    }
+
+
+    return (
+        "** " +
+        first +
+        " **"
+    );
+
+}
+
+
+/* =====================================================
+   INITIALS
+===================================================== */
+
+function getInitials(name){
+
+    const parts =
+        String(name || "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+
+    if(!parts.length){
+
+        return "?";
+
+    }
+
+
+    if(parts.length === 1){
+
+        return parts[0]
+            .substring(
+                0,
+                1
+            )
+            .toUpperCase();
+
+    }
+
+
+    return (
+        parts[0]
+            .substring(0,1) +
+
+        parts[
+            parts.length - 1
+        ]
+            .substring(0,1)
+
+    ).toUpperCase();
+
+}
+
+
+/* =====================================================
+   SAFE FIREBASE KEY
+===================================================== */
+
+function makeFirebaseKey(email){
+
+    return email
+        .toLowerCase()
+        .replace(
+            /[.#$[\]]/g,
+            "_"
+        );
+
+}
+
+
+/* =====================================================
+   ADD USER TO FIREBASE
+===================================================== */
+
+async function addUserToFirebase(user){
+
+    const key =
+        makeFirebaseKey(
+            user.email
+        );
+
+    firebaseUserKey =
+        key;
+
+
+    const attendeeRef =
+        ref(
+            db,
+            "webinar/attendees/" +
+            key
+        );
+
+
+    const userData = {
+
+        name:
+            user.name,
+
+        email:
+            user.email,
+
+        joinedAt:
+            Date.now(),
+
+        online:
+            true
+
+    };
+
+
+    try{
+
+        await set(
+            attendeeRef,
+            userData
+        );
+
+
+        /*
+            Kapag isinara ang browser,
+            mawawala ang attendee.
+        */
+
+        await onDisconnect(
+            attendeeRef
+        ).remove();
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Firebase attendee error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   REMOVE CURRENT USER
+===================================================== */
+
+async function removeCurrentUser(){
+
+    if(!firebaseUserKey){
+
+        return;
+
+    }
+
+
+    try{
+
+        await remove(
+            ref(
+                db,
+                "webinar/attendees/" +
+                firebaseUserKey
+            )
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Remove attendee error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER FIREBASE ATTENDEES
+===================================================== */
+
+function renderFirebaseAttendees(data){
+
+    attendeeList.innerHTML =
+        "";
+
+
+    if(!data){
+
+        attendeeCount.textContent =
+            "0";
+
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.className =
+            "noAttendees";
+
+        empty.textContent =
+            "No attendees yet";
+
+        attendeeList.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+
+    const attendees =
+        Object.values(
+            data
+        )
+        .filter(
+            person =>
+                person &&
+                person.name
+        );
+
+
+    attendeeCount.textContent =
+        attendees.length;
+
+
+    if(!attendees.length){
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.className =
+            "noAttendees";
+
+        empty.textContent =
+            "No attendees yet";
+
+        attendeeList.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+
+    attendees.sort(
+        function(a,b){
+
+            return (
+                Number(
+                    a.joinedAt || 0
+                ) -
+                Number(
+                    b.joinedAt || 0
+                )
+            );
+
+        }
+    );
+
+
+    attendees.forEach(
+        function(person){
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "attendee";
+
+
+            const avatar =
+                document.createElement(
+                    "div"
+                );
+
+            avatar.className =
+                "attendeeAvatar";
+
+            avatar.textContent =
+                getInitials(
+                    person.name
+                );
+
+
+            const details =
+                document.createElement(
+                    "div"
+                );
+
+            details.className =
+                "attendeeDetails";
+
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+            name.className =
+                "attendeeName";
+
+            name.textContent =
+                maskName(
+                    person.name
+                );
+
+
+            const status =
+                document.createElement(
+                    "div"
+                );
+
+            status.className =
+                "attendeeStatus";
+
+            status.textContent =
+                "Joined webinar";
+
+
+            details.appendChild(
+                name
+            );
+
+            details.appendChild(
+                status
+            );
+
+
+            item.appendChild(
+                avatar
+            );
+
+            item.appendChild(
+                details
+            );
+
+
+            attendeeList.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FIREBASE ATTENDEE LISTENER
+===================================================== */
+
+onValue(
+    attendeesRef,
+    function(snapshot){
+
+        renderFirebaseAttendees(
+            snapshot.val()
+        );
+
+    },
+    function(error){
+
+        console.error(
+            "Firebase attendee listener:",
+            error
+        );
+
+    }
+);
+
+
+/* =====================================================
+   LOGIN USER
+===================================================== */
+
+async function loginUser(){
+
+    const name =
+        fullNameInput.value
+        .trim();
+
+    const email =
+        emailInput.value
+        .trim()
+        .toLowerCase();
+
+
+    loginError.textContent =
+        "";
+
+
+    if(!name){
+
+        loginError.textContent =
+            "Please enter your full name.";
+
+        fullNameInput.focus();
+
+        return;
+
+    }
+
+
+    if(
+        !email ||
+        !email.includes("@") ||
+        !email.includes(".")
+    ){
+
+        loginError.textContent =
+            "Please enter a valid email address.";
+
+        emailInput.focus();
+
+        return;
+
+    }
+
+
+    const user = {
+
+        name:
+            name,
+
+        email:
+            email
+
+    };
+
+
+    try{
+
+        /*
+            Check muna kung
+            active ang webinar session.
+        */
+
+        const sessionSnapshot =
+            await new Promise(
+                function(resolve){
+
+                    onValue(
+                        sessionRef,
+                        resolve,
+                        {
+                            onlyOnce:true
+                        }
+                    );
+
+                }
+            );
+
+
+        const sessionData =
+            sessionSnapshot.val();
+
+
+        if(
+            sessionData &&
+            sessionData.ended === true
+        ){
+
+            loginError.textContent =
+                "This webinar session has ended.";
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            LOGIN_KEY,
+            JSON.stringify(
+                user
+            )
+        );
+
+
+        currentUser =
+            user;
+
+
+        await addUserToFirebase(
+            user
+        );
+
+
+        showLoggedUser(
+            user
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+        loginError.textContent =
+            "Unable to connect to webinar.";
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW LOGGED USER
+===================================================== */
+
+function showLoggedUser(user){
+
+    loginOverlay.style.display =
+        "none";
+
+
+    /*
+        Hindi buong pangalan.
+    */
+
+    userName.textContent =
+        maskName(
+            user.name
+        );
+
+
+    userIcon.textContent =
+        getInitials(
+            user.name
+        );
+
+}
+
+
+/* =====================================================
+   CLEAR LOGIN
+===================================================== */
+
+function clearLogin(){
+
+    currentUser =
+        null;
+
+    firebaseUserKey =
+        null;
+
+
+    localStorage.removeItem(
+        LOGIN_KEY
+    );
+
+
+    attendeeList.innerHTML =
+        "";
+
+
+    attendeeCount.textContent =
+        "0";
+
+
+    const empty =
+        document.createElement(
+            "div"
+        );
+
+    empty.className =
+        "noAttendees";
+
+    empty.textContent =
+        "No attendees yet";
+
+    attendeeList.appendChild(
+        empty
+    );
+
+
+    userName.textContent =
+        "—";
+
+    userIcon.textContent =
+        "👤";
+
+
+    loginOverlay.style.display =
+        "flex";
+
+
+    fullNameInput.value =
+        "";
+
+    emailInput.value =
+        "";
+
+}
+
+
+/* =====================================================
+   CHECK EXISTING LOGIN
+===================================================== */
+
+async function checkExistingLogin(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                LOGIN_KEY
+            );
+
+
+        if(!saved){
+
+            loginOverlay.style.display =
+                "flex";
+
+            return;
+
+        }
+
+
+        const user =
+            JSON.parse(
+                saved
+            );
+
+
+        if(
+            !user ||
+            !user.name ||
+            !user.email
+        ){
+
+            localStorage.removeItem(
+                LOGIN_KEY
+            );
+
+            loginOverlay.style.display =
+                "flex";
+
+            return;
+
+        }
+
+
+        /*
+            Check kung ended na ang
+            Firebase session.
+        */
+
+        const snapshot =
+            await new Promise(
+                function(resolve){
+
+                    onValue(
+                        sessionRef,
+                        resolve,
+                        {
+                            onlyOnce:true
+                        }
+                    );
+
+                }
+            );
+
+
+        const session =
+            snapshot.val();
+
+
+        if(
+            session &&
+            session.ended === true
+        ){
+
+            clearLogin();
+
+            return;
+
+        }
+
+
+        currentUser =
+            user;
+
+
+        await addUserToFirebase(
+            user
+        );
+
+
+        showLoggedUser(
+            user
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Existing login error:",
+            error
+        );
+
+        loginOverlay.style.display =
+            "flex";
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN EVENTS
+===================================================== */
+
+joinButton.addEventListener(
+    "click",
+    loginUser
+);
+
+
+fullNameInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter"
+        ){
+
+            emailInput.focus();
+
+        }
+
+    }
+);
+
+
+emailInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter"
+        ){
+
+            loginUser();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CLOCK
+===================================================== */
+
+function updateClock(){
+
+    const now =
+        new Date();
+
+
+    dateElement.textContent =
+        now.toLocaleDateString(
+            undefined,
+            {
+                weekday:"long",
+                month:"long",
+                day:"numeric",
+                year:"numeric"
+            }
+        );
+
+
+    clockElement.textContent =
+        now.toLocaleTimeString(
+            undefined,
+            {
+                hour:"2-digit",
+                minute:"2-digit",
+                second:"2-digit"
+            }
+        );
+
+}
+
+
+updateClock();
+
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* =====================================================
+   START TIME
+===================================================== */
+
+function getStartTime(){
+
+    const d =
+        new Date();
+
+
+    d.setHours(
+        START_HOUR,
+        START_MINUTE,
+        0,
+        0
+    );
+
+
+    return d;
+
+}
+
+
+/* =====================================================
+   ELAPSED
+===================================================== */
+
+function getElapsed(){
+
+    return (
+        Date.now() -
+        getStartTime().getTime()
+    ) / 1000;
+
+}
+
+
+/* =====================================================
+   CURRENT SESSION
+===================================================== */
+
+function getCurrentSession(){
+
+    const elapsed =
+        getElapsed();
+
+
+    if(elapsed < 0){
+
+        return 1;
+
+    }
+
+
+    return Math.min(
+
+        Math.floor(
+            elapsed / 3600
+        ) + 1,
+
+        TOTAL_SESSIONS
+
+    );
+
+}
+
+
+/* =====================================================
+   SESSION ELAPSED
+===================================================== */
+
+function getSessionElapsed(){
+
+    const elapsed =
+        getElapsed();
+
+    const session =
+        getCurrentSession();
+
+
+    return (
+        elapsed -
+        (
+            (session - 1)
+            * 3600
+        )
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT DURATION
+===================================================== */
+
+function formatDuration(seconds){
+
+    seconds =
+        Math.max(
+            0,
+            Math.floor(seconds)
+        );
+
+
+    const h =
+        Math.floor(
+            seconds / 3600
+        );
+
+
+    const m =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+
+    const s =
+        seconds % 60;
+
+
+    if(h > 0){
+
+        return (
+            h +
+            ":" +
+            String(m).padStart(2,"0") +
+            ":" +
+            String(s).padStart(2,"0")
+        );
+
+    }
+
+
+    return (
+        m +
+        ":" +
+        String(s).padStart(2,"0")
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT HOUR
+===================================================== */
+
+function formatHour(hour){
+
+    const d =
+        new Date();
+
+
+    d.setHours(
+        hour,
+        0,
+        0,
+        0
+    );
+
+
+    return d.toLocaleTimeString(
+        undefined,
+        {
+            hour:"numeric",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE SESSIONS
+===================================================== */
+
+function updateSessions(){
+
+    const elapsed =
+        getElapsed();
+
+
+    if(elapsed < 0){
+
+        currentName.textContent =
+            "Session 1";
+
+        currentTime.textContent =
+            formatHour(
+                START_HOUR
+            );
+
+        currentBadge.textContent =
+            "UPCOMING";
+
+
+        nextName.textContent =
+            "Session 2";
+
+        nextTime.textContent =
+            formatHour(
+                START_HOUR + 1
+            );
+
+        nextBadge.textContent =
+            "UPCOMING";
+
+
+        return;
+
+    }
+
+
+    const current =
+        getCurrentSession();
+
+
+    const next =
+        current + 1;
+
+
+    currentName.textContent =
+        "Session " +
+        current;
+
+
+    currentTime.textContent =
+        formatHour(
+            START_HOUR +
+            current -
+            1
+        );
+
+
+    currentBadge.textContent =
+        endedForSession
+            ? "ENDED"
+            : "LIVE";
+
+
+    if(
+        next <= TOTAL_SESSIONS
+    ){
+
+        nextName.textContent =
+            "Session " +
+            next;
+
+
+        nextTime.textContent =
+            formatHour(
+                START_HOUR +
+                next -
+                1
+            );
+
+
+        nextBadge.textContent =
+            "UPCOMING";
+
+    }
+    else{
+
+        nextName.textContent =
+            "No More Sessions";
+
+
+        nextTime.textContent =
+            "—";
+
+
+        nextBadge.textContent =
+            "END";
+
+    }
+
+}
+
+
+/* =====================================================
+   WAITING
+===================================================== */
+
+function showWaiting(){
+
+    connecting.style.display =
+        "none";
+
+
+    videoBox.style.display =
+        "none";
+
+
+    messageBox.style.display =
+        "flex";
+
+
+    messageIcon.textContent =
+        "⏳";
+
+
+    messageTitle.textContent =
+        "Starting Soon";
+
+
+    title.textContent =
+        "Webinar Not Started";
+
+
+    info.textContent =
+        "Starting at " +
+        formatHour(
+            START_HOUR
+        );
+
+
+    countdown.textContent =
+        formatDuration(
+            Math.abs(
+                getElapsed()
+            )
+        );
+
+
+    messageText.textContent =
+        "Waiting for the webinar to start.";
+
+
+    updateSessions();
+
+}
+
+
+/* =====================================================
+   ENDED
+===================================================== */
+
+function showEnded(){
+
+    video.pause();
+
+
+    videoBox.style.display =
+        "none";
+
+
+    connecting.style.display =
+        "none";
+
+
+    messageBox.style.display =
+        "flex";
+
+
+    messageIcon.textContent =
+        "⏹️";
+
+
+    messageTitle.textContent =
+        "Webinar Ended";
+
+
+    countdown.textContent =
+        "";
+
+
+    const current =
+        getCurrentSession();
+
+
+    const next =
+        current + 1;
+
+
+    if(
+        next <= TOTAL_SESSIONS
+    ){
+
+        messageText.textContent =
+            "Waiting for Session " +
+            next +
+            " at " +
+            formatHour(
+                START_HOUR +
+                next -
+                1
+            ) +
+            ".";
+
+    }
+    else{
+
+        messageText.textContent =
+            "All webinar sessions have ended.";
+
+    }
+
+
+    title.textContent =
+        "Webinar Ended";
+
+
+    info.textContent =
+        "Waiting for next session";
+
+
+    endedForSession =
+        true;
+
+
+    updateSessions();
+
+}
+
+
+/* =====================================================
+   AUDIO
+
+   DITO ANG FIX SA UNMUTE.
+
+   Hindi na tatawagin ng bawat second ang
+   pag-show ng button.
+
+   Once na napindot:
+       soundUnlocked = true
+       unmuteClicked = true
+
+   Hindi na ito muling lalabas.
+===================================================== */
+
+function prepareMutedVideo(){
+
+    video.muted =
+        true;
+
+    video.volume =
+        0;
+
+
+    if(
+        !unmuteClicked
+    ){
+
+        unmute.classList.remove(
+            "hidden"
+        );
+
+    }
+    else{
+
+        unmute.classList.add(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   START SESSION
+===================================================== */
+
+function startCurrentSession(){
+
+    if(!videoReady){
+
+        return;
+
+    }
+
+
+    const session =
+        getCurrentSession();
+
+
+    const sessionElapsed =
+        getSessionElapsed();
+
+
+    const duration =
+        video.duration;
+
+
+    if(
+        !isFinite(duration) ||
+        duration <= 0
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        sessionElapsed >= duration
+    ){
+
+        showEnded();
+
+        return;
+
+    }
+
+
+    if(
+        lastSession !== session
+    ){
+
+        lastSession =
+            session;
+
+        endedForSession =
+            false;
+
+
+        video.currentTime =
+            sessionElapsed;
+
+    }
+    else{
+
+        if(
+            Math.abs(
+                video.currentTime -
+                sessionElapsed
+            ) > 2
+        ){
+
+            video.currentTime =
+                sessionElapsed;
+
+        }
+
+    }
+
+
+    messageBox.style.display =
+        "none";
+
+
+    connecting.style.display =
+        "none";
+
+
+    videoBox.style.display =
+        "flex";
+
+
+    title.textContent =
+        "🔴 LIVE WEBINAR";
+
+
+    info.textContent =
+        "Session " +
+        session +
+        " • Live";
+
+
+    /*
+        IMPORTANT:
+
+        Always remain muted until
+        the user presses the button.
+
+        Hindi natin tinatawag dito ang
+        unmute.
+    */
+
+    if(!soundUnlocked){
+
+        prepareMutedVideo();
+
+    }
+
+
+    video.play()
+        .then(
+            function(){
+
+                /*
+                    Walang automatic sound.
+                */
+
+                if(!soundUnlocked){
+
+                    video.muted =
+                        true;
+
+                    video.volume =
+                        0;
+
+                }
+
+            }
+        )
+        .catch(
+            function(error){
+
+                console.log(
+                    "Video play waiting:",
+                    error
+                );
+
+            }
+        );
+
+
+    updateSessions();
+
+}
+
+
+/* =====================================================
+   CHECK WEBINAR
+===================================================== */
+
+function checkWebinar(){
+
+    if(firebaseSessionEnded){
+
+        return;
+
+    }
+
+
+    if(!videoReady){
+
+        updateSessions();
+
+        return;
+
+    }
+
+
+    const elapsed =
+        getElapsed();
+
+
+    if(elapsed < 0){
+
+        lastSession =
+            -1;
+
+        endedForSession =
+            false;
+
+        showWaiting();
+
+        return;
+
+    }
+
+
+    const session =
+        getCurrentSession();
+
+
+    if(
+        session !== lastSession
+    ){
+
+        endedForSession =
+            false;
+
+    }
+
+
+    startCurrentSession();
+
+}
+
+
+/* =====================================================
+   VIDEO METADATA
+===================================================== */
+
+video.addEventListener(
+    "loadedmetadata",
+    function(){
+
+        videoReady =
+            true;
+
+
+        connectSub.textContent =
+            "Video duration: " +
+            formatDuration(
+                video.duration
+            );
+
+
+        /*
+            IMPORTANT:
+            Start muted.
+        */
+
+        prepareMutedVideo();
+
+
+        checkWebinar();
+
+    }
+);
+
+
+/* =====================================================
+   VIDEO ENDED
+===================================================== */
+
+video.addEventListener(
+    "ended",
+    function(){
+
+        showEnded();
+
+    }
+);
+
+
+/* =====================================================
+   VIDEO ERROR
+===================================================== */
+
+video.addEventListener(
+    "error",
+    function(){
+
+        console.error(
+            "VIDEO ERROR:",
+            video.error
+        );
+
+
+        connectSub.textContent =
+            "Cannot load seminar.mp4";
+
+    }
+);
+
+
+/* =====================================================
+   UNMUTE BUTTON
+
+   ITO LANG ANG WAY PARA MAGKAROON
+   NG SOUND.
+===================================================== */
+
+unmute.addEventListener(
+    "click",
+    async function(){
+
+        /*
+            Prevent double clicks.
+        */
+
+        if(unmuteClicked){
+
+            return;
+
+        }
+
+
+        try{
+
+            video.muted =
+                false;
+
+            video.volume =
+                1;
+
+
+            await video.play();
+
+
+            /*
+                Mark permanently unlocked
+                for this page session.
+            */
+
+            soundUnlocked =
+                true;
+
+            unmuteClicked =
+                true;
+
+
+            unmute.classList.add(
+                "hidden"
+            );
+
+
+            console.log(
+                "Audio enabled by user."
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Could not enable sound:",
+                error
+            );
+
+
+            /*
+                Kapag hindi successful,
+                mananatiling muted at
+                visible ang button.
+            */
+
+            video.muted =
+                true;
+
+            video.volume =
+                0;
+
+            soundUnlocked =
+                false;
+
+            unmuteClicked =
+                false;
+
+
+            unmute.classList.remove(
+                "hidden"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FIREBASE SESSION LISTENER
+
+   Structure:
+
+   webinar
+      session
+         id
+         ended
+         endedAt
+
+===================================================== */
+
+onValue(
+    sessionRef,
+    function(snapshot){
+
+        const data =
+            snapshot.val();
+
+
+        if(!data){
+
+            firebaseSessionEnded =
+                false;
+
+            currentFirebaseSessionId =
+                null;
+
+            return;
+
+        }
+
+
+        const sessionId =
+            data.id || null;
+
+
+        /*
+            NEW SESSION
+        */
+
+        if(
+            sessionId &&
+            sessionId !==
+                currentFirebaseSessionId
+        ){
+
+            currentFirebaseSessionId =
+                sessionId;
+
+            firebaseSessionEnded =
+                false;
+
+            /*
+                Reset webinar state.
+            */
+
+            lastSession =
+                -1;
+
+            endedForSession =
+                false;
+
+        }
+
+
+        /*
+            SESSION ENDED
+        */
+
+        if(
+            data.ended === true
+        ){
+
+            if(!firebaseSessionEnded){
+
+                firebaseSessionEnded =
+                    true;
+
+
+                handleFirebaseEndSession();
+
+            }
+
+        }
+        else{
+
+            firebaseSessionEnded =
+                false;
+
+        }
+
+    },
+    function(error){
+
+        console.error(
+            "Firebase session listener:",
+            error
+        );
+
+    }
+);
+
+
+/* =====================================================
+   HANDLE FIREBASE END SESSION
+===================================================== */
+
+async function handleFirebaseEndSession(){
+
+    /*
+        Stop video.
+    */
+
+    try{
+
+        video.pause();
+
+        video.currentTime =
+            0;
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+
+    /*
+        Remove current attendee.
+    */
+
+    await removeCurrentUser();
+
+
+    /*
+        IMPORTANT:
+        Remove saved login.
+
+        Sa next load:
+        login screen ulit.
+    */
+
+    localStorage.removeItem(
+        LOGIN_KEY
+    );
+
+
+    /*
+        Clear local user.
+    */
+
+    currentUser =
+        null;
+
+    firebaseUserKey =
+        null;
+
+
+    /*
+        Clear attendee panel immediately.
+    */
+
+    attendeeList.innerHTML =
+        "";
+
+    attendeeCount.textContent =
+        "0";
+
+
+    const empty =
+        document.createElement(
+            "div"
+        );
+
+    empty.className =
+        "noAttendees";
+
+    empty.textContent =
+        "Session ended";
+
+    attendeeList.appendChild(
+        empty
+    );
+
+
+    /*
+        Hide webinar.
+    */
+
+    videoBox.style.display =
+        "none";
+
+    connecting.style.display =
+        "none";
+
+    messageBox.style.display =
+        "flex";
+
+
+    messageIcon.textContent =
+        "⏹️";
+
+
+    messageTitle.textContent =
+        "SESSION ENDED";
+
+
+    countdown.textContent =
+        "";
+
+
+    messageText.textContent =
+        "The webinar session has ended. Please wait for a new session.";
+
+
+    title.textContent =
+        "Webinar Session Ended";
+
+
+    info.textContent =
+        "You have been logged out";
+
+
+    /*
+        Show login again.
+    */
+
+    loginOverlay.style.display =
+        "flex";
+
+
+    fullNameInput.value =
+        "";
+
+    emailInput.value =
+        "";
+
+
+    loginError.textContent =
+        "";
+
+
+    /*
+        Reset audio state.
+    */
+
+    soundUnlocked =
+        false;
+
+    unmuteClicked =
+        false;
+
+
+    unmute.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD VIDEO
+===================================================== */
+
+video.src =
+    VIDEO_FILE;
+
+video.load();
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+prepareMutedVideo();
+
+checkExistingLogin();
+
+updateSessions();
+
+
+/* =====================================================
+   CHECK EVERY SECOND
+===================================================== */
+
+setInterval(
+    checkWebinar,
+    1000
+);
+
+
+/* =====================================================
+   REMOVE USER WHEN PAGE IS CLOSED
+===================================================== */
+
+window.addEventListener(
+    "pagehide",
+    function(){
+
+        /*
+            onDisconnect() handles
+            the Firebase cleanup.
+
+            Do not use await here.
+        */
+
+        if(firebaseUserKey){
+
+            remove(
+                ref(
+                    db,
+                    "webinar/attendees/" +
+                    firebaseUserKey
+                )
+            ).catch(
+                function(){}
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
